@@ -1,0 +1,388 @@
+\documentclass{article}
+\usepackage[a4paper, total={7in, 9.5in}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{pgf,tikz,pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+
+\title{DSA1101 Final Exam Solution}
+\author{Nicholas Russell Saerang}
+\date{Semester 1, 2018/2019}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item Table below is the classified output given thresholds.
+        \begin{center}
+        \begin{tabular}{ |c|c|c|c|c|c| } 
+        \hline
+        $i$ & actual $Y_i$ & $P(Y_i=1\vert X_i)$ & $\sigma = 0.3$ & $\sigma = 0.6$ & $\sigma = 0.8$ \\
+        \hline
+        1 & 1 & 0.9 & 1 (TP) & 1 (TP) & 1 (TP) \\ 
+        2 & 1 & 0.5 & 1 (TP) & 0 (FN) & 0 (FN) \\ 
+        3 & 0 & 0.7 & 1 (FP) & 1 (FP) & 0 (TN) \\ 
+        4 & 1 & 0.4 & 1 (TP) & 0 (FN) & 0 (FN) \\ 
+        5 & 1 & 0.5 & 1 (TP) & 0 (FN) & 0 (FN) \\ 
+        6 & 0 & 0.2 & 0 (TN) & 0 (TN) & 0 (TN) \\ 
+        7 & 0 & 0.7 & 1 (FP) & 1 (FP) & 0 (TN) \\ 
+        8 & 1 & 0.9 & 1 (TP) & 1 (TP) & 1 (TP) \\ 
+        9 & 0 & 0.1 & 0 (TN) & 0 (TN) & 0 (TN) \\ 
+        10 & 0 & 0.1 & 0 (TN) & 0 (TN) & 0 (TN) \\ 
+        \hline
+        \end{tabular}
+        \end{center}
+        The confusion matrices are shown below.
+        \begin{center}
+        \begin{tabular}{ |c|c|c|c| } 
+        \hline
+        $\sigma = 0.3$ & & \multicolumn{2}{|c|}{Predicted $y$}\\
+        \hline
+        TPR = 1, FPR = 0.4& & 1 & 0\\
+        \hline
+        \multirow{2}{4em}{Actual $y$} & 1 & 5 & 0\\
+        & 0 & 2 & 3\\
+        \hline
+        \end{tabular}
+        \end{center}
+        \begin{center}
+        \begin{tabular}{ |c|c|c|c| } 
+        \hline
+        $\sigma = 0.6$ & & \multicolumn{2}{|c|}{Predicted $y$}\\
+        \hline
+        TPR = 0.4, FPR = 0.4& & 1 & 0\\
+        \hline
+        \multirow{2}{4em}{Actual $y$} & 1 & 2 & 3\\
+        & 0 & 2 & 3\\
+        \hline
+        \end{tabular}
+        \end{center}
+        \begin{center}
+        \begin{tabular}{ |c|c|c|c| } 
+        \hline
+        $\sigma = 0.8$ & & \multicolumn{2}{|c|}{Predicted $y$}\\
+        \hline
+        TPR = 0.4, FPR = 0& & 1 & 0\\
+        \hline
+        \multirow{2}{4em}{Actual $y$} & 1 & 2 & 3\\
+        & 0 & 0 & 5\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Thus, we can plot these three points (FPR, TPR) as shown below.\\
+        \definecolor{zzttqq}{rgb}{0.6,0.2,0}
+        \definecolor{ffdxqq}{rgb}{1,0.8431372549019608,0}
+        \definecolor{ffqqqq}{rgb}{1,0,0}
+        \definecolor{ududff}{rgb}{0.30196078431372547,0.30196078431372547,1}
+        \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm,scale=5]
+        \clip(-0.2,-0.15) rectangle (1.3,1.2);
+        \fill[line width=2pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (0,0) -- (0,0.4) -- (0.4,0.4) -- (0.4,1) -- (1,1) -- (1,0) -- cycle;
+        \draw [line width=2pt] (0,-0.4327744834537441) -- (0,1.4391513261548523);
+        \draw [line width=2pt,domain=-0.4501250609797163:2.47799303470074] plot(\x,{(-0-0*\x)/1});
+        \draw [line width=2pt,color=zzttqq] (0,0)-- (0,0.4);
+        \draw [line width=2pt,color=zzttqq] (0,0.4)-- (0.4,0.4);
+        \draw [line width=2pt,color=zzttqq] (0.4,0.4)-- (0.4,1);
+        \draw [line width=2pt,color=zzttqq] (0.4,1)-- (1,1);
+        \draw [line width=2pt,color=zzttqq] (1,1)-- (1,0);
+        \draw [line width=2pt,color=zzttqq] (1,0)-- (0,0);
+        \draw (0.3634542798327494,0.2068644949769696) node[anchor=north west] {AUC = 0.76};
+        \draw (0.027748682286221,1.1104228912967573) node[anchor=north west] {TPR};
+        \draw (1.0443718049029282,0.09988733228853945) node[anchor=north west] {FPR};
+        \draw (-0.14095880807920291,1.0312845643864752) node[anchor=north west] {1};
+        \draw (-0.16835284431737766,0.8273511835022866) node[anchor=north west] {0.8};
+        \draw (-0.1713966261216193,0.632549148030823) node[anchor=north west] {0.6};
+        \draw (-0.16835284431737766,0.4255719853423928) node[anchor=north west] {0.4};
+        \draw (-0.16530906251313602,0.2307699498709291) node[anchor=north west] {0.2};
+        \draw (0.1616750816728531,-0.03708284890233345) node[anchor=north west] {0.2};
+        \draw (0.36256468075280124,-0.03708284890233345) node[anchor=north west] {0.4};
+        \draw (0.566498061636991,-0.03708284890233345) node[anchor=north west] {0.6};
+        \draw (0.7613000971084559,-0.04012663070657507) node[anchor=north west] {0.8};
+        \draw (0.9895837324265788,-0.04925797611929993) node[anchor=north west] {1};
+        \draw (0.03688002769894592,0.3725282035381512) node[anchor=north west] {$\sigma=0.8$};
+        \draw (0.40561544405460056,0.5034108211205409) node[anchor=north west] {$\sigma=0.6$};
+        \draw (0.4203965350333924,1.121234001646233) node[anchor=north west] {$\sigma=0.3$};
+        \begin{scriptsize}
+        \draw [fill=ududff] (0.2,0) circle (0.5pt);
+        \draw [fill=ududff] (0.4,0) circle (0.5pt);
+        \draw [fill=ududff] (0.6,0) circle (0.5pt);
+        \draw [fill=ududff] (0.8,0) circle (0.5pt);
+        \draw [fill=ududff] (0,0.2) circle (0.5pt);
+        \draw [fill=ududff] (0,0.4) circle (0.5pt);
+        \draw [fill=ududff] (0,0.6) circle (0.5pt);
+        \draw [fill=ududff] (0,0.8) circle (0.5pt);
+        \draw [fill=ududff] (0,1) circle (0.5pt);
+        \draw [fill=ududff] (1,0) circle (0.5pt);
+        \draw [fill=ffqqqq] (0,0.4) circle (0.5pt);
+        \draw [fill=ffqqqq] (0.4,0.4) circle (0.5pt);
+        \draw [fill=ffqqqq] (0.4,1) circle (0.5pt);
+        \draw [fill=ffdxqq] (1,1) circle (0.5pt);
+        \draw [fill=ffdxqq] (0,0) circle (0.5pt);
+        \end{scriptsize}
+        \end{tikzpicture}
+        
+        \item If $\sigma > 0.9$, then all test points are predicted as $y=0$, hence TPR = FPR = 0.\\\\
+        Likewise, if $\sigma < 0.1$, then all test points are predicted as $y=1$, hence TPR = FPR = 1.\\\\
+        The area under the estimated ROC curve is
+        \[0.4^2+0.6\times1=0.76\]
+        
+        \item We can rewrite the equation as follows.
+        \begin{align*}
+            \text{accuracy} &= \eta_1\text{TPR}+\eta_2\text{TNR}\\
+            \frac{TP+TN}{TP+FN+FP+TN} &= \eta_1\left(\frac{TP}{TP+FN}\right)+\eta_2\left(\frac{TN}{FP+TN}\right)
+        \end{align*}
+        Since $TP+FN$ and $FP+TN$ are both equal and constant, which is 5, we can multiply both sides by 10 and get
+        \[TP+TN=2\eta_1TP+2\eta_2TN\]
+        Therefore, by comparing coefficients we get $\eta_1=\eta_2=0.5$.
+    \end{enumerate}
+    
+    \item
+    \begin{enumerate}
+        \item Since we are only interested in itemsets with larger than 0.1 support, the itemsets count must be larger than $250,000\times0.1=25,000$.\\
+        Therefore, the subsets with significant support are \[\{A\},\{B\},\{C\},\{D\},\{BC\},\{BD\},\{CD\},\{BCD\}\]
+        
+        \item Recall that \[\text{Confidence}(X \rightarrow Y) = \frac{\text{Support}(X \wedge Y)}{\text{Support}(X)}\]
+        Hence,
+        \[\text{Support}(X \wedge Y)=\text{Confidence}(X \rightarrow Y) \times \text{Support}(X)\]
+        First of all, note that \{E\} itself is a satisfying itemset. We include this in our final answer. Next,
+        \begin{align*}
+            \text{Support}(\{AE\}) &= \text{Confidence}(\{A\} \rightarrow \{E\}) \times \text{Support}(\{A\})\\
+            &= 0.1 \times \frac{100}{250}\\
+            &= 0.04 < 0.1
+        \end{align*}
+        \begin{align*}
+            \text{Support}(\{BCDE\}) &= \text{Confidence}(\{BCD\} \rightarrow \{E\}) \times \text{Support}(\{BCD\})\\
+            &= 0.95 \times \frac{30}{250}\\
+            &= 0.114 > 0.1
+        \end{align*}
+        Since \{BCDE\} is a satisfying itemset, with the Apriori algorithm, all the subsets of \{BCDE\} containing E are also satisfying. Hence, \{BE\},\{CE\},\{DE\},\{BCE\},\{BDE\},\{CDE\} are also satisfying.\\\\
+        Finally, all the itemsets containing E with support greater than 0.1 are
+        \[\{E\},\{BE\},\{CE\},\{DE\},\{BCE\},\{BDE\},\{CDE\},\{BCDE\}\]
+        
+        \item
+        \begin{enumerate}
+            \item First,
+            \begin{align*}
+                \text{Lift}(F \rightarrow G) &= \frac{\text{Support}(FG)}{\text{Support}(F)\times\text{Support}(G)}\\
+                &= \frac{\text{Confidence}(G \rightarrow F)}{\text{Support}(F)}\\
+                &= \frac{0.8}{0.8} = 1
+            \end{align*}
+            
+            \item Since from the previous part Support(FG) = Support(F) $\times$ Support(G), we have
+            \begin{align*}
+                \text{Leverage}(F \rightarrow G) &= \text{Support}(FG)-\text{Support}(F)\times\text{Support}(G)\\
+                &= 0
+            \end{align*}
+            
+            \item The formal way.
+            \begin{align*}
+                \text{Confidence}(F \rightarrow G) &= \frac{\text{Support}(FG)}{\text{Support}(F)}\\
+                &= \frac{\text{Confidence}(G \rightarrow F)\times\text{Support}(G)}{\text{Support}(F)}\\
+                &= \frac{0.8\times0.7}{0.8} = 0.7
+            \end{align*}
+            A much quicker way.
+            \begin{align*}
+                \text{Confidence}(F \rightarrow G) &= \text{Lift}(F \rightarrow G) \times \text{Support}(G)\\
+                &= 1 \times 0.7 = 0.7
+            \end{align*}
+            
+            \item Finally,
+            \begin{align*}
+                \text{Lift}(\{F,G\} \rightarrow H) &= \frac{\text{Support}(FGH)}{\text{Support}(FG)\times\text{Support}(H)}\\
+                &= \frac{\text{Confidence}(H \rightarrow \{F,G\})}{\text{Support}(FG)}\\
+                &= \frac{\text{Confidence}(H \rightarrow \{F,G\})}{\text{Confidence}(G \rightarrow F)\times\text{Support}(G)}\\
+                &= \frac{0.3}{0.8\times0.7} = \frac{15}{28}
+            \end{align*}
+        \end{enumerate}
+    \end{enumerate}
+    
+    \item
+    \begin{enumerate}
+        \item 
+        Yellow for A, green for B, red for C.\\
+        \definecolor{ffffww}{rgb}{1,1,0.4}
+        \definecolor{uuuuuu}{rgb}{0.26666666666666666,0.26666666666666666,0.26666666666666666}
+        \definecolor{ffqqqq}{rgb}{1,0,0}
+        \definecolor{xdxdff}{rgb}{0.49019607843137253,0.49019607843137253,1}
+        \definecolor{qqffqq}{rgb}{0,1,0}
+        \definecolor{ududff}{rgb}{0.30196078431372547,0.30196078431372547,1}
+        \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm,scale=0.8]
+        \begin{axis}[
+        x=1cm,y=1cm,
+        axis lines=middle,
+        xmin=-0.52,
+        xmax=9.019999999999996,
+        ymin=-0.3599999999999977,
+        ymax=9.039999999999996,
+        xtick={-3,-2,...,16},
+        ytick={-2,-1,...,9},]
+        \clip(-3.22,-2.36) rectangle (16.02,9.94);
+        \fill[line width=0.5pt,color=qqffqq,fill=qqffqq,fill opacity=0.68] (2.5,1.8) -- (2.5,0) -- (5,0) -- (5,1.8) -- cycle;
+        \fill[line width=0.5pt,color=ffqqqq,fill=ffqqqq,fill opacity=0.6] (2.5,9.72) -- (2.5,1.8) -- (5,1.8) -- (5,0) -- (14,0) -- (14.8,9.66) -- cycle;
+        \fill[line width=0.5pt,color=ffffww,fill=ffffww,fill opacity=1] (2.5,0) -- (0,0) -- (0,9.7) -- (2.5,9.72) -- cycle;
+        \draw [line width=0.5pt] (2.5,0) -- (2.5,9.94);
+        \draw [line width=0.5pt] (2.5,1.8)-- (5,1.8);
+        \draw [line width=0.5pt] (5,1.8)-- (5,0);
+        \draw [line width=0.5pt,color=qqffqq] (2.5,1.8)-- (2.5,0);
+        \draw [line width=0.5pt,color=qqffqq] (2.5,0)-- (5,0);
+        \draw [line width=0.5pt,color=qqffqq] (5,0)-- (5,1.8);
+        \draw [line width=0.5pt,color=qqffqq] (5,1.8)-- (2.5,1.8);
+        \draw [line width=0.5pt,color=ffqqqq] (2.5,9.72)-- (2.5,1.8);
+        \draw [line width=0.5pt,color=ffqqqq] (2.5,1.8)-- (5,1.8);
+        \draw [line width=0.5pt,color=ffqqqq] (5,1.8)-- (5,0);
+        \draw [line width=0.5pt,color=ffqqqq] (5,0)-- (14,0);
+        \draw [line width=0.5pt,color=ffqqqq] (14,0)-- (14.8,9.66);
+        \draw [line width=0.5pt,color=ffqqqq] (14.8,9.66)-- (2.5,9.72);
+        \draw [line width=0.5pt,color=ffffww] (2.5,0)-- (0,0);
+        \draw [line width=0.5pt,color=ffffww] (0,0)-- (0,9.7);
+        \draw [line width=0.5pt,color=ffffww] (0,9.7)-- (2.5,9.72);
+        \draw [line width=0.5pt,color=ffffww] (2.5,9.72)-- (2.5,0);
+        \draw (0.18,8.68) node[anchor=north west] {Petal width};
+        \draw (6.92,0.62) node[anchor=north west] {Petal length};
+        \begin{scriptsize}
+        \draw [fill=ududff] (2.5,0) circle (2.5pt);
+        \draw [fill=ududff] (2.5,1.8) circle (2.5pt);
+        \draw [fill=ududff] (5,1.8) circle (2.5pt);
+        \draw [fill=ududff] (5,0) circle (2.5pt);
+        \draw [fill=xdxdff] (2.5,9.72) circle (2.5pt);
+        \draw[color=xdxdff] (2.66,9.85) node {$E$};
+        \draw [fill=xdxdff] (14,0) circle (2.5pt);
+        \draw[color=xdxdff] (14.16,0.43) node {$F$};
+        \draw [fill=ududff] (14.8,9.66) circle (2.5pt);
+        \draw[color=ududff] (14.96,9.85) node {$G$};
+        \draw [fill=uuuuuu] (0,0) circle (2pt);
+        \draw [fill=xdxdff] (0,9.7) circle (2.5pt);
+        \draw[color=xdxdff] (0.16,9.85) node {$I$};
+        \end{scriptsize}
+        \end{axis}
+        \end{tikzpicture}
+        
+        \item Supervised : Linear regression, logistic regression, naive Bayes, k-nearest neighbors, decision tree\\\\
+        Unsupervised : Association rules, k-means clustering
+    \end{enumerate}
+    
+    \item
+    \begin{enumerate}
+        \item The purity at the root node is
+        \[P(\text{buys = yes})=\frac{8}{14}\]
+        Hence, the base entropy $D_{buys}$ is
+        \begin{align*}
+            D_{buys}&=-\left(\frac{8}{14}\times log_2\left(\frac{8}{14}\right)+\frac{6}{14}\times log_2\left(\frac{6}{14}\right)\right)\\
+            &= 0.9852281
+        \end{align*}
+        We also have the following probabilities.
+        \begin{align*}
+            P(\text{age = senior, youth})&=\frac{10}{14}=\frac{5}{7}\\
+            P(\text{age = middle aged})&=\frac{4}{14}=\frac{2}{7}\\
+            P(\text{buys = no }\vert\text{ age = senior, youth}) &= \frac{5}{10} = \frac{1}{2}\\
+            P(\text{buys = yes }\vert\text{ age = middle aged})&=\frac{3}{4}
+        \end{align*}
+        Thus, we can compute the conditional entropy as follows.
+        \begin{align*}
+            D_{buys \vert age}&=P(\text{age = senior, youth}) \times D_{buys \vert \text{age = senior, youth}} +\\&\hspace{1 cm}P(\text{age = middle aged}) \times D_{buys \vert \text{age = middle aged}}\\
+            &= -\left[\frac{5}{7}\left(\frac{1}{2}\times log_2\left(\frac{1}{2}\right)+\frac{1}{2}\times log_2\left(\frac{1}{2}\right)\right)\right]-\\
+            &\hspace{1 cm}\left[\frac{2}{7}\left(\frac{3}{4}\times log_2\left(\frac{3}{4}\right)+\frac{1}{4}\times log_2\left(\frac{1}{4}\right)\right)\right]\\
+            &=\frac{5}{7}\times1+\frac{2}{7}\times0.8112781\\
+            &= 0.9460795
+        \end{align*}
+        Therefore, the entropy reduction or equivalently information gain using 'age' as predictor is 0.9852281 - 0.9460795 = 0.0391486 = 0.039 (rounded to 3 decimal places).
+        
+        \item From the given decision tree, we can traverse down the tree and predict that the customer \textbf{will buy} the computer. Now we shall predict using the Naive Bayes classifier, hence assuming age, student status, and income as independent attributes.\\\\
+        First, we have
+        \[P(\text{buys = yes})=\frac{8}{14},P(\text{buys = no})=\frac{6}{14}\]
+        Then,
+        \[P(\text{age = youth }\vert\text{ buys = yes})=\frac{2}{8}=\frac{1}{4},P(\text{age = youth }\vert\text{ buys = no})=\frac{3}{6}=\frac{1}{2}\]
+        \[P(\text{income = medium }\vert\text{ buys = yes})=\frac{4}{8}=\frac{1}{2},P(\text{income = medium }\vert\text{ buys = no})=\frac{2}{6}=\frac{1}{3}\]
+        \[P(\text{student = yes }\vert\text{ buys = yes})=\frac{6}{8}=\frac{3}{4},P(\text{student = yes }\vert\text{ buys = no})=\frac{1}{6}\]
+        Then,
+        \[P(\text{buys = yes }\vert\text{ age, income, student})=\frac{8}{14}\times\frac{1}{4}\times\frac{1}{2}\times\frac{3}{4}=\frac{3}{56}\]
+        and
+        \[P(\text{buys = no }\vert\text{ age, income, student})=\frac{6}{14}\times\frac{1}{2}\times\frac{1}{3}\times\frac{1}{6}=\frac{1}{84}\]
+        Since $\frac{3}{56} > \frac{1}{84}$, we classify this data as 'yes', thus the customer \textbf{will buy} the computer.
+    \end{enumerate}
+    
+    % Qn 5
+    \item
+    \begin{enumerate}
+        \item The error term $\epsilon_i$ can be positive or negative, but they all sum up to 0. In order not to cancel each other, we do the least squares estimates by taking the minimum value of $\sum \epsilon_i^2$. In order to achieve this, we must have $\hat{\beta}_0$ and $\hat{\beta}_1$ to be the solution of
+        \[\frac{d\sum \epsilon_i^2}{d\beta_0}=\frac{d\sum \epsilon_i^2}{d\beta_1}=0\]
+        Note that
+        \[\sum \epsilon_i^2=\sum (y_i-\beta_0 - \beta_1x_i)^2\]
+        Thus,
+        \begin{align*}
+            \frac{d\sum \epsilon_i^2}{d\beta_0} &= \frac{d\sum (y_i-\beta_0 - \beta_1x_i)^2}{d\beta_0}\\
+            &= -2\sum (y_i-\beta_0-\beta_1x_i) = 0\\
+            \sum_{i=1}^{n} (y_i-\hat{\beta}_0-\hat{\beta}_1x_i) &= 0 \hspace{1.5 cm}\Rightarrow (1)\\\\
+            \frac{d\sum \epsilon_i^2}{d\beta_1} &= \frac{d\sum (y_i-\beta_0 - \beta_1x_i)^2}{d\beta_1}\\
+            &= -2\sum x_i(y_i-\beta_0-\beta_1x_i) = 0\\
+            \sum_{i=1}^{n} x_i(y_i-\hat{\beta}_0-\hat{\beta}_1x_i) &= 0 \hspace{1.5 cm}\Rightarrow (2)
+        \end{align*}
+        
+        \item Backtracking.\\
+        Note that from (1),
+        \[\sum_{i=1}^{n} (y_i-\hat{\beta}_0-\hat{\beta}_1x_i) = \sum_{i=1}^{n} (y_i-\hat{y}_i) = 0\]
+        Also, $\bar{y}$ and $\hat{\beta}_0$ are constants, so
+        \[\sum_{i=1}^{n} \bar{y}(y_i-\hat{y}_i) = \sum_{i=1}^{n} \hat{\beta}_0(y_i-\hat{y}_i)=0 \hspace{0.7 cm}\Rightarrow (3)\]
+        From (2), we have
+        \[\sum_{i=1}^{n} x_i(y_i-\hat{\beta}_0-\hat{\beta}_1x_i) = 0\]
+        Therefore, since $\hat{\beta}_1$ is constant,
+        \[\sum_{i=1}^{n} \hat{\beta}_1x_i(y_i-\hat{\beta}_0-\hat{\beta}_1x_i) = 0\hspace{1.5 cm}\Rightarrow (4)\]
+        Combine (3) and (4), we have
+        \[\sum_{i=1}^{n} \bar{y}(y_i-\hat{y}_i) = \sum_{i=1}^{n} (\hat{\beta}_0+\hat{\beta}_1x_i)(y_i-\hat{y}_i)=\sum_{i=1}^{n} \hat{y}_i(y_i-\hat{y}_i)=0\]
+        We take the first and last sum expressions.
+        \begin{align*}
+            \sum_{i=1}^{n} \bar{y}(y_i-\hat{y}_i) &= \sum_{i=1}^{n} \hat{y}_i(y_i-\hat{y}_i)\\
+            \sum_{i=1}^{n} \bar{y}y_i &= \sum_{i=1}^{n} (\hat{y}_iy_i-\hat{y}_i^2+\bar{y}\hat{y}_i)\\
+            \sum_{i=1}^{n} -2\bar{y}y_i &= \sum_{i=1}^{n} -2(\hat{y}_iy_i-\hat{y}_i^2+\bar{y}\hat{y}_i)\\
+            \sum_{i=1}^{n} (y_i^2-2\bar{y}y_i+\bar{y}^2) &= \sum_{i=1}^{n} [y_i^2-2(\hat{y}_iy_i-\hat{y}_i^2+\bar{y}\hat{y}_i)+\bar{y}^2]\\
+            \sum_{i=1}^{n} (y_i^2-2\bar{y}y_i+\bar{y}^2) &= \sum_{i=1}^{n} (y_i^2-2\hat{y}_iy_i+\hat{y}_i^2)+(\hat{y}_i^2-2\bar{y}\hat{y}_i+\bar{y}^2)\\
+            \sum_{i=1}^{n} (y_i^2-2\bar{y}y_i+\bar{y}^2) &= \sum_{i=1}^{n} (y_i^2-2\hat{y}_iy_i+\hat{y}_i^2)+\sum_{i=1}^{n}(\hat{y}_i^2-2\bar{y}\hat{y}_i+\bar{y}^2)\\
+            \sum_{i=1}^{n} (y_i-\bar{y})^2 &= \sum_{i=1}^{n} (y_i-\hat{y}_i)^2+\sum_{i=1}^{n}(\hat{y}_i-\bar{y})^2
+        \end{align*}
+    \end{enumerate}
+    
+    % Qn 6
+    \item
+    \begin{enumerate}
+        \item Since $P(Y=1\vert x)=\frac{\exp(\beta_0+\beta_1x)}{1+\exp(\beta_0+\beta_1x)}$, then $P(Y=0\vert x)=\frac{1}{1+\exp(\beta_0+\beta_1x)}$. Therefore,
+        \begin{align*}
+            L(\beta_0,\beta_1)&=\prod_{i=1}^{n}P(Y=1\vert x_i)^{y_i}P(Y=0\vert x_i)^{1-y_i}\\
+            &= \prod_{i=1}^{n}\left(\frac{\exp(\beta_0+\beta_1x_i)}{1+\exp(\beta_0+\beta_1x_i)}\right)^{y_i}\left(\frac{1}{1+\exp(\beta_0+\beta_1x_i)}\right)^{1-y_i}\\
+            &= \prod_{i=1}^{n}\frac{\exp(y_i(\beta_0+\beta_1x_i))}{1+\exp(\beta_0+\beta_1x_i)}
+        \end{align*}
+        
+        \item Since the odds of getting a head with a dollar coin is $\frac{n_{11}}{n_{01}}$ and the odds of getting a head with a non-dollar coin is $\frac{n_{10}}{n_{00}}$, then the odds ratio is
+        \[OR = \frac{\frac{n_{11}}{n_{01}}}{\frac{n_{10}}{n_{00}}}=\frac{n_{11}n_{00}}{n_{10}n_{01}}\]
+        
+        \item Note that
+        \[L(\beta_0,\beta_1)=\left(\frac{\exp(\beta_0+\beta_1)}{1+\exp(\beta_0+\beta_1)}\right)^{n_{11}}\left(\frac{\exp(\beta_0)}{1+\exp(\beta_0)}\right)^{n_{10}}\left(\frac{1}{1+\exp(\beta_0+\beta_1)}\right)^{n_{01}}\left(\frac{1}{1+\exp(\beta_0)}\right)^{n_{00}}\]
+        Let $K=\ln L(\beta_0,\beta_1)$. To find the maximum likelihood estimate, we simply need to find the maximum of $K$ instead of $L(\beta_0,\beta_1)$.
+        \[K=n_{11}(\beta_0+\beta_1)+n_{10}(\beta_0)-(n_{11}+n_{01})\ln(1+\exp(\beta_0+\beta_1))-(n_{10}+n_{00})\ln(1+\exp(\beta_0))\]
+        By taking the derivative of $K$ with respect to both parameters $\beta_0$ and $\beta_1$, we have
+        \begin{align*}
+            \frac{dK}{d\beta_1}&=n_{11}-\frac{n_{11}+n_{01}}{1+\exp(\beta_0+\beta_1)}\exp(\beta_0+\beta_1)=0\\
+            &\hspace{1 cm}\Rightarrow \frac{n_{11}}{n_{11}+n_{01}}=\frac{\exp(\hat{\beta}_0+\hat{\beta}_1)}{1+\exp(\hat{\beta}_0+\hat{\beta}_1)}\hspace{1.5 cm}\Rightarrow (1)\\
+            \frac{dK}{d\beta_0}&=n_{11}+n_{10}-\frac{n_{11}+n_{01}}{1+\exp(\beta_0+\beta_1)}\exp(\beta_0+\beta_1)-\frac{n_{10}+n_{00}}{1+\exp(\beta_0)}\exp(\beta_0)\\
+            &= n_{11}+n_{10}-(n_{11}+n_{01})\frac{n_{11}}{n_{11}+n_{01}}-\frac{n_{10}+n_{00}}{1+\exp(\beta_0)}\exp(\beta_0)\\
+            &= n_{10}-\frac{n_{10}+n_{00}}{1+\exp(\beta_0)}\exp(\beta_0)=0\\
+            &\hspace{1 cm}\Rightarrow \frac{n_{10}}{n_{10}+n_{00}}=\frac{\exp(\hat{\beta}_0)}{1+\exp(\hat{\beta}_0)}\hspace{2.3 cm}\Rightarrow (2)\\
+        \end{align*}
+        From (1) and (2), we have
+        \begin{align*}
+            \exp(\hat{\beta}_0+\hat{\beta}_1)&=\frac{n_{11}}{n_{01}}\\
+            \exp(\hat{\beta}_0) &= \frac{n_{10}}{n_{00}}\\\\
+            \Rightarrow \exp(\hat{\beta}_1)&=\frac{\exp(\hat{\beta}_0+\hat{\beta}_1)}{\exp(\hat{\beta}_0)}\\
+            e^{\hat{\beta}_1}&=\frac{\frac{n_{11}}{n_{01}}}{\frac{n_{10}}{n_{00}}} = \frac{n_{11}n_{00}}{n_{10}n_{01}}
+        \end{align*}
+        which is the odds ratio that we have calculated in part (b).
+    \end{enumerate}
+    
+\end{enumerate}
+
+\end{document}
